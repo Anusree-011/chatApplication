@@ -19,7 +19,7 @@ app.use((req, res, next) => {
 
 app.use('/api/auth', authRouter);
 app.use('/api/message', messageRouter);
-app.use('/api/user'userRouter)
+app.use('/api/user',userRouter);
 
 app.get("/", (req, res) => {
     res.send("server is running")
