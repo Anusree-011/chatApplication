@@ -1,0 +1,14 @@
+import express from "express"
+import {sendMessage,getMessages} from "../routControllers/messagercoutControler.js"
+import { isLogin } from "../middleware/isLogin.js";
+
+const router = express.Router();
+
+router.post('/send/:id',isLogin, sendMessage  )
+
+router.checkout('/:id', isLogin, getMessages)
+
+
+
+
+export default router
