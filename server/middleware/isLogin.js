@@ -1,9 +1,8 @@
-import express from "express"
-import User from "../models/userModels.js"
-import * as jwt from 'jsonwebtoken';
+import User from "../DB/Models/userModels.js"
+import jwt from 'jsonwebtoken';
 
 
-const isLogin = (req,res,next)=>{
+export const isLogin = async (req,res,next)=>{
     try{
         console.log(req.cookies.jwt); 
         const token = req.cookies.jwt;
@@ -15,7 +14,7 @@ const isLogin = (req,res,next)=>{
                 return res.status(500).send({success:false, message: "User unauthorized- Invalid Token"}
 
                 )
-            const user= user.findById(decode.userId).select("-password");
+            const user = await User.findById(decode.userId).select("-password");
             if(!user) return res.status(500).send({success:false, message: "User not found"})
             req.user= user,
             next()
@@ -29,4 +28,3 @@ const isLogin = (req,res,next)=>{
 
     }
 }
-export default isLogin;

@@ -6,23 +6,21 @@ const messageSchema = mongoose.Schema({
         ref:"User",
         required:true   
     },
-     reciverId:{
+    receiverId:{
         type: mongoose.Schema.Types.ObjectId,
         ref:"User",
         required:true   
     },
     message:{
-        true:String,
+        type: String,
         required:true
     },
-      conversationId:{
+    conversationId:{
         type: mongoose.Schema.Types.ObjectId,
         ref:"Conversation",
-        default:[]   
-    },
-
-   
+        required: true   
+    }
 },{timestamps:true})
 
-const Message = mongoose. model("Message", conversationSchema)
+const Message = mongoose.model("Message", messageSchema)
 export default Message;

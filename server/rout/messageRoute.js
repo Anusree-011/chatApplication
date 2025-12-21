@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post('/send/:id',isLogin, sendMessage  )
 
-router.checkout('/:id', isLogin, getMessages)
+router.get('/:id', isLogin, getMessages)
 
 
 

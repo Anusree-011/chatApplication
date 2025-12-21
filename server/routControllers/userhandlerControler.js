@@ -1,9 +1,10 @@
-import Conversation from "../DB/Models/conversationModel";
+import Conversation from "../DB/Models/conversationModel.js";
+import User from "../DB/Models/userModels.js";
 
-export const getUserBySearch= async(requestAnimationFrame,res)=>{
+export const getUserBySearch = async(req,res)=>{
     try{
         const search=req.query.search ||'';
-        const currentUserID=req.user._conditions._id;
+        const currentUserID=req.user._id;
         const user=await User.find({
             $and:[
                 {
@@ -18,7 +19,7 @@ export const getUserBySearch= async(requestAnimationFrame,res)=>{
            
         }).select("-password").select("email")
 
-        res.status(200).send(users);
+        res.status(200).send(user);
 
     }catch(error){
         res.status(500).send({
@@ -28,28 +29,27 @@ export const getUserBySearch= async(requestAnimationFrame,res)=>{
         console.log(error);
     }
 }
-export const getcurrentChatters =async(req,res)=>{
+export const getcurrentChatters = async(req,res)=>{
     try{
-        const cureentUserID= req.res._conditions._id;
+        const currentUserID = req.user._id;
         const currentchatters=await Conversation.find({
-            participants:cureentUserID
+            participants: currentUserID
         }).sort({
             updatedAt: -1
         })
         if(!currentchatters || currentchatters.length===0) return res.status(200).send([]);
-        const participants = currentchatters.reduce((ids,conversation)=>{
-            const otherParticipants = conversation.participants.find(id => id !== currentUserID);
+        const participantsIDS = currentchatters.reduce((ids,conversation)=>{
+            const otherParticipants = conversation.participants.filter(id => id.toString() !== currentUserID.toString());
             return [...ids, ...otherParticipants]
-        })
-        const otherParticipantsIDS= participantsIDS.filter(id => id.tostring() !== currentUserID.tostring());
+        }, [])
+        const otherParticipantsIDS = participantsIDS.filter(id => id.toString() !== currentUserID.toString());
 
-        const user =await User.find({
+        const user = await User.find({
             _id:{$in:otherParticipantsIDS}
         }).select("-password").select("email");
 
-        const users= otherParticipantsIDS.map(id=>
-             user = User.find(user => user._id.tostring() === id.tostring())
-            
+        const users = otherParticipantsIDS.map(id =>
+            user.find(u => u._id.toString() === id.toString())
         )
       
 
