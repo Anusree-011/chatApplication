@@ -10,7 +10,7 @@ export default defineConfig({
   ],
    server:{
         proxy:{
-          '/apo':{
+          '/api':{
             target:"http://localhost:3000",
             secure:false
           }
