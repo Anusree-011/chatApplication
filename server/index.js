@@ -1,40 +1,35 @@
-import express from "express";
-import dotenv from "dotenv";
-import dbconnect from "./DB/dbconnect.js";
-import authRouter from "./rout/authUser.js";
-import messageRouter from "./rout/messageRoute.js";
+import express from "express"
+import dotenv from 'dotenv'
+import dbConnect from "./DB/dbConnect.js";
+import authRouter from './rout/authUser.js'
+import messageRouter from './rout/messageRout.js'
+import userRouter from './rout/userRout.js'
 import cookieParser from "cookie-parser";
-import userRouter from "./rout/userRout.js";
-import { app, server } from "./Socket/socket.js";
+import path from "path";
 
-import cors from "cors";
+import { app, server } from './Socket/socket.js'
+
+const __dirname = path.resolve();
 
 dotenv.config();
+
+
 app.use(express.json());
-app.use(cookieParser());
-app.use(cors());
+app.use(cookieParser())
 
-// Debug middleware to log all requests
-app.use((req, res, next) => {
-    console.log(`${req.method} ${req.url}`);
-    next();
-});
+app.use('/api/auth', authRouter)
+app.use('/api/message', messageRouter)
+app.use('/api/user', userRouter)
 
-app.use('/api/auth', authRouter);
-app.use('/api/message', messageRouter);
-app.use('/api/user', userRouter);
+app.use(express.static(path.join(__dirname, "/frontend/dist")))
 
-app.get("/", (req, res) => {
-    res.send("server is running");
-});
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"))
+})
 
-// Catch-all route for debugging
-app.use((req, res) => {
-    res.status(404).json({ error: `Route ${req.method} ${req.originalUrl} not found` });
-});
+const PORT = process.env.PORT || 3000
 
-const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
-    dbconnect();
-    console.log(`Server is running on ${PORT} port`);
-});
+    dbConnect();
+    console.log(`Working at ${PORT}`);
+})
