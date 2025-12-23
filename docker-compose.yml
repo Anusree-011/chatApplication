@@ -40,7 +40,7 @@ services:
     ports:
       - "5173:5173"
     environment:
-      - VITE_API_URL=http://localhost:3000
+      - VITE_API_URL=https://chatapplication-3-tx0h.onrender.com
     depends_on:
       - backend
     volumes:
