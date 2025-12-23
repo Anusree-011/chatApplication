@@ -2,8 +2,10 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
+  const { setAuthUser } = useAuth();
   const [userInput, setUserInput] = useState({
     email: "",
     password: "",
@@ -36,6 +38,7 @@ const Login = () => {
 
       toast.success(data.message);
       localStorage.setItem("token", JSON.stringify(data));
+      setAuthUser(data);
       setLoading(false);
       navigate("/");
     } catch (error) {
@@ -46,17 +49,22 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="w-full max-w-md p-6 rounded-lg shadow-md bg-white/80 backdrop-blur-lg">
-        <h1 className="text-3xl mb-4 font-semibold text-center text-gray-900">
-          Login <span className="text-gray-500">ChatApp</span>
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
+      {/* Background gradients for visual depth - optional but recommended for glassmorphism */}
+      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-gray-900 via-gray-800 to-black -z-10"></div>
+      <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-sky-500/20 rounded-full blur-[100px]"></div>
+      <div className="absolute bottom-[10%] right-[10%] w-[30%] h-[30%] bg-purple-500/20 rounded-full blur-[100px]"></div>
+
+      <div className="w-full max-w-md p-8 rounded-2xl shadow-2xl bg-gray-900/60 backdrop-blur-md border border-white/10">
+        <h1 className="text-3xl mb-6 font-bold text-center text-white">
+          Login <span className="text-sky-500">ChatApp</span>
         </h1>
 
-        <form onSubmit={handleSubmit} className="flex flex-col text-black">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div>
-            <label className="label p-3 mb-2">
-              <span className="font-bold text-gray-950 text-xl label-text">
-                Email :
+            <label className="label p-2">
+              <span className="text-base text-gray-300 label-text">
+                Email
               </span>
             </label>
             <input
@@ -64,21 +72,21 @@ const Login = () => {
               type="email"
               placeholder="Enter your Email"
               onChange={handleInput}
-              className="w-full input input-bordered h-10 mt-2 text-black text-sm bg-white p-2 rounded-sm"
+              className="w-full h-11 px-4 text-sm text-white bg-gray-800/50 border border-white/10 rounded-lg focus:outline-none focus:border-sky-500/50 transition placeholder-gray-500"
               required
             />
           </div>
 
-          <div className="mb-4 mt-2">
-            <label className="label p-3 mb-2">
-              <span className="font-bold text-gray-950 text-xl">Password:</span>
+          <div>
+            <label className="label p-2">
+              <span className="text-base text-gray-300">Password</span>
             </label>
             <input
               id="password"
               type="password"
               placeholder="Enter Password"
               onChange={handleInput}
-              className="w-full input input-bordered h-10 mt-2 text-black text-sm bg-white p-2 rounded-sm"
+              className="w-full h-11 px-4 text-sm text-white bg-gray-800/50 border border-white/10 rounded-lg focus:outline-none focus:border-sky-500/50 transition placeholder-gray-500"
               required
             />
           </div>
@@ -86,18 +94,18 @@ const Login = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full self-center px-2 py-1 bg-gray-950 text-lg hover:scale-105 text-white rounded-lg btn btn-block btn-sm mt-4"
+            className="w-full mt-4 py-2.5 bg-sky-600 hover:bg-sky-500 text-white font-medium rounded-lg transition-all duration-300 shadow-lg shadow-sky-500/20 disabled:scale-100 disabled:opacity-50"
           >
-            {loading ? "Loading..." : "Login"}
+            {loading ? <span className="loading loading-spinner text-white"></span> : "Login"}
           </button>
         </form>
 
-        <div className="pt-3 ml-15">
-          <p className="text-sm font-semibold text-gray-800">
+        <div className="mt-6 text-center">
+          <p className="text-sm text-gray-400">
             Don&apos;t have an account?
             <Link to="/register">
-              <span className="text-gray-950 font-bold underline cursor-pointer hover:text-green-950 ml-1">
-                Register Now!
+              <span className="text-sky-400 font-bold hover:text-sky-300 hover:underline ml-1 transition">
+                Register Now
               </span>
             </Link>
           </p>

@@ -5,8 +5,8 @@ const router = express.Router()
 
 // router.post('/register', registerUser)
 // router.post('/login', loginUser)
-router.get('/logout', isLogin, getUserBySearch)
-router.get('/currentchatters',getcurrentChatters)
+router.get('/search', isLogin, getUserBySearch)
+router.get('/currentchatters', isLogin, getcurrentChatters)
 
 export default router
 

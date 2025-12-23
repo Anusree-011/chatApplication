@@ -1,204 +1,14 @@
-// import React from "react";
-// import { useState } from "react";
-// import { Link, useNavigate } from "react-router-dom";
-// import axios from "axios";
-
-// const Register = () => {
-//   const navigate = useNavigate();
-//   const [loading, setLoading] = useState(false);
-//   const [inputData, setInputData] = useState({});
-
-//   const handleInput = (e) => {
-//     setInputData({
-//       ...inputData,
-//       [e.target.id]: e.target.value,
-//     });
-//   };
-//   console.log(inputData);
-//   const selectGender = (selectGender) => {
-//     setInputData(
-//       (prev = {
-//         ...prev,
-//         gender: selectGender === inputData.gender ? "" : selectGender,
-//       })
-//     );
-//   };
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     setLoading(true);
-//     if (inputData.password !== inputData.confirmPassword.toLowerCase()) {
-//       setLoading(false);
-//       return toast.error("Password and Confirm Password do not match");
-//     }
-
-//     try {
-//       const res = await axios.post(`/api/auth/register`, inputData);
-//       const data = register.data;
-//       if (data.suucess === false) {
-//         setLoading(false);
-//         toast.error(data.message);
-//         console.log(data.message);
-//       }
-//       toast.success(data?.message);
-//       localStorage.setItem("token", JSON.stringify(data));
-//       setLoading(false);
-//       navigate("/login");
-
-//       if (data.success === false) {
-//         setLoading(false);
-//         console.log(data.message);
-//         toast.error(data.message);
-//         return;
-//       }
-
-//       toast.success(data.message);
-//       localStorage.setItem("token", JSON.stringify(data));
-//       setLoading(false);
-//       navigate("/");
-//     } catch (error) {
-//       setLoading(false);
-//       toast.error(error.response?.data?.message || "Login failed");
-//       console.log(error);
-//     }
-//   };
-//   return (
-//     <div className="min-h-screen flex items-center justify-center">
-//       <div className="w-full max-w-md p-6 rounded-lg shadow-md bg-white/80 backdrop-blur-lg">
-//         <h1 className="text-3xl mb-4 font-semibold text-center text-gray-900">
-//           Register <span className="text-gray-500">ChatApp</span>
-//         </h1>
-
-//         <form onSubmit={handleSubmit} className="flex flex-col text-black">
-//           <div className="mb-4 mt-2">
-//             <label className="label p-3 mb-2">
-//               <span className="font-bold text-gray-950 text-xl">Fullname</span>
-//             </label>
-//             <input
-//               id="fullname"
-//               type="text"
-//               placeholder="Enter Fullname"
-//               onChange={handleInput}
-//               className="w-full input input-bordered h-10 mt-2 text-black text-sm bg-white p-2 rounded-sm"
-//               required
-//             />
-//           </div>
-//           <div className="mb-4 mt-2">
-//             <label className="label p-3 mb-2">
-//               <span className="font-bold text-gray-950 text-xl">Username:</span>
-//             </label>
-//             <input
-//               id="username"
-//               type="text"
-//               placeholder="Enter username"
-//               onChange={handleInput}
-//               className="w-full input input-bordered h-10 mt-2 text-black text-sm bg-white p-2 rounded-sm"
-//               required
-//             />
-//           </div>
-//           <div>
-//             <label className="label p-3 mb-2">
-//               <span className="font-bold text-gray-950 text-xl label-text">
-//                 Email :
-//               </span>
-//             </label>
-//             <input
-//               id="email"
-//               type="email"
-//               placeholder="Enter your Email"
-//               onChange={handleInput}
-//               className="w-full input input-bordered h-10 mt-2 text-black text-sm bg-white p-2 rounded-sm"
-//               required
-//             />
-//           </div>
-
-//           <div className="mb-4 mt-2">
-//             <label className="label p-3 mb-2">
-//               <span className="font-bold text-gray-950 text-xl">Password:</span>
-//             </label>
-//             <input
-//               id="password"
-//               type="password"
-//               placeholder="Enter Password"
-//               onChange={handleInput}
-//               className="w-full input input-bordered h-10 mt-2 text-black text-sm bg-white p-2 rounded-sm"
-//               required
-//             />
-//           </div>
-//           <div className="mb-4 mt-2">
-//             <label className="label p-3 mb-2">
-//               <span className="font-bold text-gray-950 text-xl">
-//                 {" "}
-//                 Confirm Password:
-//               </span>
-//             </label>
-//             <input
-//               id="password"
-//               type="text"
-//               placeholder="Enter Confirm Password"
-//               onChange={handleInput}
-//               className="w-full input input-bordered h-10 mt-2 text-black text-sm bg-white p-2 rounded-sm"
-//               required
-//             />
-//           </div>
-//           <div id="gender" className="flex gap-2">
-//             <label className="cursor-pointer label flex gap-2">
-//               <span className="label-text font-semibold text-gray-950">
-//                 male{" "}
-//               </span>
-//               <input
-//                 onChange={() => selectGender("male")}
-//                 checked={InputData.gender === "male"}
-//                 type="checkbox"
-//                 className="checkbox checkbox-info"
-//               />
-//             </label>
-//             <label className="ml-4 cursor-pointer label flex gap-2">
-//               <span className="label-text font-semibold text-gray-950">
-//                 female{" "}
-//               </span>
-//               <input
-//                 onChange={() => selectGender("female")}
-//                 checked={InputData.gender === "male"}
-//                 type="checkbox"
-//                 className="checkbox checkbox-info"
-//               />
-//             </label>
-//           </div>
-
-//           <button
-//             type="submit"
-//             disabled={loading}
-//             className="w-full self-center px-2 py-1 bg-gray-950 text-lg hover:scale-105 text-white rounded-lg btn btn-block btn-sm mt-4"
-//           >
-//             {loading ? "Loading..." : "Register"}
-//           </button>
-//         </form>
-
-//         <div className="pt-3 ml-15">
-//           <p className="text-sm font-semibold text-gray-800">
-//             Don&apos;t have an account?
-//             <Link to="/login">
-//               <span className="text-gray-950 font-bold underline cursor-pointer hover:text-green-950 ml-1">
-//                 Login Now!
-//               </span>
-//             </Link>
-//           </p>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Register;
 
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useAuth } from "../context/AuthContext";
+
 
 const Register = () => {
   const navigate = useNavigate();
+  const { setAuthUser } = useAuth();
 
   const [loading, setLoading] = useState(false);
   const [inputData, setInputData] = useState({
@@ -241,112 +51,124 @@ const Register = () => {
       const data = res.data;
 
       if (data.success === false) {
+
         setLoading(false);
-        return toast.error(data.message);
+        return toast.error(data.message)
+        console.log(data.message);
       }
 
       toast.success(data.message || "Registration successful");
       localStorage.setItem("token", JSON.stringify(data.token));
+      setAuthUser(data)
+      setLoading(false)
       navigate("/login");
     } catch (error) {
       toast.error(error.response?.data?.message || "Registration failed");
       console.error(error);
     } finally {
       setLoading(false);
+
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="w-full max-w-md p-6 rounded-lg shadow-md bg-white">
-        <h1 className="text-3xl mb-4 font-semibold text-center text-gray-900">
-          Register <span className="text-gray-500">ChatApp</span>
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
+      {/* Background gradients */}
+      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-gray-900 via-gray-800 to-black -z-10"></div>
+      <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-sky-500/20 rounded-full blur-[100px]"></div>
+      <div className="absolute bottom-[10%] right-[10%] w-[30%] h-[30%] bg-purple-500/20 rounded-full blur-[100px]"></div>
+
+      <div className="w-full max-w-md p-8 rounded-2xl shadow-2xl bg-gray-900/60 backdrop-blur-md border border-white/10 my-8">
+        <h1 className="text-3xl mb-6 font-bold text-center text-white">
+          Register <span className="text-sky-500">ChatApp</span>
         </h1>
 
-        <form onSubmit={handleSubmit} className="flex flex-col text-black">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           {/* Fullname */}
-          <div className="mb-4">
-            <label className="font-bold">Full Name</label>
+          <div>
+            <label className="text-gray-300 text-sm font-medium mb-1 block">Full Name</label>
             <input
               id="fullname"
               type="text"
               placeholder="Enter full name"
               onChange={handleInput}
-              className="w-full border p-2 mt-1 rounded"
+              className="w-full h-11 px-4 text-sm text-white bg-gray-800/50 border border-white/10 rounded-lg focus:outline-none focus:border-sky-500/50 transition placeholder-gray-500"
               required
             />
           </div>
 
           {/* Username */}
-          <div className="mb-4">
-            <label className="font-bold">Username</label>
+          <div>
+            <label className="text-gray-300 text-sm font-medium mb-1 block">Username</label>
             <input
               id="username"
               type="text"
               placeholder="Enter username"
               onChange={handleInput}
-              className="w-full border p-2 mt-1 rounded"
+              className="w-full h-11 px-4 text-sm text-white bg-gray-800/50 border border-white/10 rounded-lg focus:outline-none focus:border-sky-500/50 transition placeholder-gray-500"
               required
             />
           </div>
 
           {/* Email */}
-          <div className="mb-4">
-            <label className="font-bold">Email</label>
+          <div>
+            <label className="text-gray-300 text-sm font-medium mb-1 block">Email</label>
             <input
               id="email"
               type="email"
               placeholder="Enter email"
               onChange={handleInput}
-              className="w-full border p-2 mt-1 rounded"
+              className="w-full h-11 px-4 text-sm text-white bg-gray-800/50 border border-white/10 rounded-lg focus:outline-none focus:border-sky-500/50 transition placeholder-gray-500"
               required
             />
           </div>
 
           {/* Password */}
-          <div className="mb-4">
-            <label className="font-bold">Password</label>
+          <div>
+            <label className="text-gray-300 text-sm font-medium mb-1 block">Password</label>
             <input
               id="password"
               type="password"
               placeholder="Enter password"
               onChange={handleInput}
-              className="w-full border p-2 mt-1 rounded"
+              className="w-full h-11 px-4 text-sm text-white bg-gray-800/50 border border-white/10 rounded-lg focus:outline-none focus:border-sky-500/50 transition placeholder-gray-500"
               required
             />
           </div>
 
           {/* Confirm Password */}
-          <div className="mb-4">
-            <label className="font-bold">Confirm Password</label>
+          <div>
+            <label className="text-gray-300 text-sm font-medium mb-1 block">Confirm Password</label>
             <input
               id="confirmPassword"
               type="password"
               placeholder="Confirm password"
               onChange={handleInput}
-              className="w-full border p-2 mt-1 rounded"
+              className="w-full h-11 px-4 text-sm text-white bg-gray-800/50 border border-white/10 rounded-lg focus:outline-none focus:border-sky-500/50 transition placeholder-gray-500"
               required
             />
           </div>
 
           {/* Gender */}
-          <div className="flex gap-4 mb-4">
-            <label className="flex items-center gap-2">
+          <div className="flex gap-4 mt-2">
+            <label className="flex items-center gap-2 cursor-pointer group">
               <input
                 type="checkbox"
+                className="checkbox checkbox-sm checkbox-info border-gray-500"
                 checked={inputData.gender === "male"}
                 onChange={() => selectGender("male")}
               />
-              Male
+              <span className="text-gray-300 group-hover:text-white transition text-sm">Male</span>
             </label>
 
-            <label className="flex items-center gap-2">
+            <label className="flex items-center gap-2 cursor-pointer group">
               <input
                 type="checkbox"
+                className="checkbox checkbox-sm checkbox-info border-gray-500"
                 checked={inputData.gender === "female"}
                 onChange={() => selectGender("female")}
               />
-              Female
+              <span className="text-gray-300 group-hover:text-white transition text-sm">Female</span>
             </label>
           </div>
 
@@ -354,18 +176,20 @@ const Register = () => {
           <button
             type="submit"
             disabled={loading}
-            className="bg-black text-white py-2 rounded hover:opacity-80"
+            className="w-full mt-4 py-2.5 bg-sky-600 hover:bg-sky-500 text-white font-medium rounded-lg transition-all duration-300 shadow-lg shadow-sky-500/20 disabled:scale-100 disabled:opacity-50"
           >
-            {loading ? "Registering..." : "Register"}
+            {loading ? <span className="loading loading-spinner text-white"></span> : "Register"}
           </button>
         </form>
 
-        <p className="text-sm text-center mt-4">
-          Already have an account?
-          <Link to="/login" className="ml-1 font-bold underline">
-            Login
-          </Link>
-        </p>
+        <div className="mt-6 text-center">
+          <p className="text-sm text-gray-400">
+            Already have an account?
+            <Link to="/login" className="text-sky-400 font-bold hover:text-sky-300 hover:underline ml-1 transition">
+              Login
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );
