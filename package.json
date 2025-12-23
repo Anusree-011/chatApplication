@@ -1,4 +1,10 @@
 {
+  "name": "chat-app-root",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "npm install && npm install --prefix client && npm run build --prefix client && npm install --prefix server",
+    "start": "node server/index.js"
+  },
   "dependencies": {
     "path": "^0.12.7",
     "socket.io": "^4.8.2"
