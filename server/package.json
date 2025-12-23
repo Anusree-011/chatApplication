@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "nodemon index.js",
     "start": "node index.js",
-    "build": "echo 'Nothing to build for server'"
+    "build": "echo 'No build script for server, handled by root'"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
