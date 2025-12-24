@@ -15,7 +15,7 @@ export const SocketContextProvider = ({ children }) => {
 
     useEffect(() => {
         if (authUser) {
-            const ENDPOINT = import.meta.env.MODE === 'development' ? "http://localhost:3000" : window.location.origin;
+            const ENDPOINT = "https://chatapplication-3-tx0h.onrender.com";
             const socket = io(ENDPOINT, {
                 query: {
                     userId: authUser._id,
